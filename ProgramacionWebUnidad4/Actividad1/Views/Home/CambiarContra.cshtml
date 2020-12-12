@@ -1,0 +1,20 @@
+﻿@model Actividad1.Models.Usuarios
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+
+<main>
+    <a href="~/Home/Index">Volver a mi Perfil</a>
+    <h1>Cambiar Contraseña</h1>
+    <form method="post" action="~/Home/CambiarContra">
+        <p>Escriba la contraseña con la que accede a esta cuenta</p>
+        <input type="password" name="contra" placeholder="Contraseña actual" asp-for="Contrasena" required />
+        <br />
+        <input type="text" name="correo" value="@User.Claims.FirstOrDefault(x=>x.Type == "Correo").Value" style="visibility:hidden" />
+        <br />
+        <input type="password" name="nuevaContraseña1" placeholder="Nueva contraseña" required />
+        <br />
+        <input type="password" name="nuevaContraseña2" placeholder="Confirmar nueva contraseña" required />
+        @Html.ValidationSummary()
+        <input type="submit" value="Cambiar contraseña" />
+    </form>
+</main>

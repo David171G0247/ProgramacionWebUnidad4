@@ -1,0 +1,24 @@
+﻿@model Actividad1.Models.Usuarios
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+
+<main>
+    <h1>Iniciar sesión</h1>
+    <p>
+        Bienvenido a MercadoLibre.
+        <a href="~/Home/Registrar">Regístrate</a>
+    </p>
+    <form method="post" action="~/Home/IniciarSesion">
+        <input type="email" asp-for="Correo" placeholder="Correo electrónico" required />
+        <br />
+        <input type="password" asp-for="Contrasena" placeholder="Contraseña" required />
+        <br />
+        <input type="checkbox" name="persistente" value="true" />
+        <label for="mantener">Mantenerme conectado</label>
+        <br />
+        <input type="submit" value="Iniciar sesión" />
+        <br />
+    </form>
+    @Html.ValidationSummary()
+    <a href="~/Home/RecuperarContra">¿Olvidaste tu contraseña?</a>
+</main>

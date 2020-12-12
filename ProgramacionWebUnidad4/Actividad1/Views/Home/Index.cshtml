@@ -1,0 +1,17 @@
+﻿
+@{ Layout = "_Layout"; }
+
+<main>
+    <h1>Perfil</h1>
+    <label>@User.Claims.FirstOrDefault(x => x.Type == "Nombre").Value</label>
+    <br />
+    <label>@User.Claims.FirstOrDefault(x => x.Type == "Correo").Value</label>
+    <br />
+    <a href="~/Home/CerrarSesion">Cerrar mi sesión</a>
+    <br /><br />
+    <a href="~/Home/CambiarContra">Cambiar mi contraseña</a>
+    <br /><br />
+    <a href="~/Home/EliminarCuenta">Eliminar mi cuenta</a>
+
+    @Html.ValidationSummary()
+</main>

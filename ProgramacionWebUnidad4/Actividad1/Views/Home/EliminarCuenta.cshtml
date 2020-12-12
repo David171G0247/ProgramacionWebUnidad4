@@ -1,0 +1,27 @@
+﻿
+@{ Layout = "_Layout"; }
+
+<main>
+    <h1>EliminarCuenta</h1>
+
+    <a href="~/Home/Index">Volver a mi Perfil</a>
+    <h1>Eliminar</h1>
+    <p>
+        ¿Está seguro que quiere eliminar su cuenta en OursCafé?
+        <br />
+        Una vez elimine su cuenta no podrá volver a acceder a ella.
+    </p>
+    <a href="~/Home/Index">
+        <label>
+            No. Volver a mi perfil.
+        </label>
+    </a>
+    <form method="post" action="~/Home/EliminarCuenta">
+        <input type="text" name="correo" value="@User.Claims.FirstOrDefault(x=>x.Type == "Correo").Value" style="visibility:hidden" />
+        <br />
+        <input type="password" name="contra" placeholder="Contraseña" required />
+        <br />
+        @Html.ValidationSummary()
+        <input type="submit" value="Sí. Eliminar mi cuenta." />
+    </form>
+</main>

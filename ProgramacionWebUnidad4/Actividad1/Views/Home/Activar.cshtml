@@ -1,0 +1,17 @@
+﻿@model Actividad1.Models.Usuarios
+@{ Layout = "_Layout"; }
+
+<main>
+    <h1>Activar</h1>
+    <form method="post" action="~/Home/Activar">
+        <p>Ingrese su código de activación</p>
+        <input type="number" name="codigo" required />
+        <input type="submit" value="Activar" />
+    </form>
+</main>
+@{
+    ViewData["Title"] = "Activar";
+}
+
+<h1>Activar</h1>
+
