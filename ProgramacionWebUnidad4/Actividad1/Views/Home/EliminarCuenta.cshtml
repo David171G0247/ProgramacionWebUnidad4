@@ -1,13 +1,9 @@
 ﻿
 @{ Layout = "_Layout"; }
 
-<main>
-    <h1>EliminarCuenta</h1>
-
-    <a href="~/Home/Index">Volver a mi Perfil</a>
     <h1>Eliminar</h1>
     <p>
-        ¿Está seguro que quiere eliminar su cuenta en OursCafé?
+        ¿Está seguro que quiere eliminar su cuenta?
         <br />
         Una vez elimine su cuenta no podrá volver a acceder a ella.
     </p>
@@ -22,6 +18,5 @@
         <input type="password" name="contra" placeholder="Contraseña" required />
         <br />
         @Html.ValidationSummary()
-        <input type="submit" value="Sí. Eliminar mi cuenta." />
+        <input type="submit" value="Eliminar mi cuenta." />
     </form>
-</main>

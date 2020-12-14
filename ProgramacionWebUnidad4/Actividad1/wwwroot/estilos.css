@@ -17,13 +17,15 @@ header {
     border-radius: 20px;
 }
 
-main{
-    text-align:center;
-    background-color:#ffffff;
-    margin-top:10px;
-    margin-bottom:10px;
-    padding-top:15px;
-    padding-bottom:15px;
+main {
+    text-align: center;
+    background-color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 1px solid black;
+    border-radius: 20px;
 }
 
 input[type=text], input[type=email], input[type=password], input[type=submit] {
@@ -40,8 +42,4 @@ input[type=submit] {
     background-color: #5697fa;
     color: white;
     font-weight:bold;
-}
-.principal {
-    border: 1px solid black;
-    border-radius: 20px;
 }

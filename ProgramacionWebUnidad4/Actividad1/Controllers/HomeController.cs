@@ -279,7 +279,7 @@ namespace Actividad1.Controllers
         [Authorize]
         public IActionResult EliminarCuenta()
         {
-            return View();
+            return RedirectToAction("IniciarSesion");
         }
 
         // Aún no funciona
