@@ -10,9 +10,8 @@ namespace Actividad2.Repositories
     {
         public AlumnosRepository(rolesusuariosContext context) : base(context)
         {
-
         }
-        public Alumno ObtenerAlumnoPorNoControl(string noControl)
+        public Alumno GetAlumnoPorNoControl(string noControl)
         {
             return Context.Alumno.FirstOrDefault(x => x.NumeroControl.ToLower() == noControl.ToLower());
         }
@@ -23,8 +22,10 @@ namespace Actividad2.Repositories
                 throw new Exception("Ingrese el número de control del alumno.");
             if (string.IsNullOrEmpty(alumno.Nombre))
                 throw new Exception("Ingrese el nombre del alumno.");
-            if (alumno.IdMaestro.ToString() == null || alumno.IdMaestro <= 0)
+            if (alumno.IdMaestro == null || alumno.IdMaestro <= 0)
                 throw new Exception("Debe asignarle un maestro al alumno.");
+            if (alumno.NumeroControl.Length < 8 || alumno.NumeroControl.Length > 8)
+                throw new Exception("El número de control debe ser de 8 dígitos.");
             return true;
         }
     }

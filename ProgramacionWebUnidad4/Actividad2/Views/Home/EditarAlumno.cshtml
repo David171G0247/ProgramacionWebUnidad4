@@ -1,0 +1,48 @@
+﻿@model Actividad2.Models.ViewModels.AlumnoViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+<main>
+    <section id="datos">
+        <h1>Modificar información del alumno</h1>
+        @if (User.IsInRole("Director"))
+        {
+            <form method="post" action="~/Home/EditarAlumno">
+                <input type="hidden" asp-for="Alumno.Id" />
+                <br />
+                <label>Maestro a cargo del grupo:</label>
+                <input type="text" asp-for="Maestro.Nombre" readonly />
+                <br />
+                <label>Clave del maestro:</label>
+                <input type="number" asp-for="Maestro.Clave" readonly />
+                <br />
+                <label>Número de control:</label>
+                <input type="text" asp-for="Alumno.NumeroControl" required readonly />
+                <br />
+                <label>Nombre completo:</label>
+                <input type="text" asp-for="Alumno.Nombre" required />
+                <br />
+                @Html.ValidationSummary()
+                <input type="submit" value="Editar" />
+                <a href="~/Home/VerAlumnos/@(Model.Maestro.Id)">Cancelar</a>
+            </form>
+        }
+        else if (User.IsInRole("Maestro"))
+        {
+            <form method="post" action="~/Home/EditarAlumno">
+                <input type="hidden" asp-for="Alumno.Id" />
+                <br />
+                <label>Número de control:</label>
+                <input type="text" asp-for="Alumno.NumeroControl" required readonly />
+                <br />
+                <label>Nombre completo:</label>
+                <input type="text" asp-for="Alumno.Nombre" required />
+                <br />
+                @Html.ValidationSummary()
+                <input type="submit" value="Editar" />
+                <a href="~/Home/VerAlumnos/@(int.Parse(User.Claims.FirstOrDefault(x=>x.Type=="Id").Value))">Cancelar</a>
+            </form>
+        }
+    </section>
+</main>

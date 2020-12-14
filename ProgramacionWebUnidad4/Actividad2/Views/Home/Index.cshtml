@@ -1,7 +1,41 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    Layout = "_Layout";
 }
+<main>
+    @if (User.IsInRole("Maestro"))
+    {
+        <h1>Bienvenido</h1>
+        <h3>@User.Claims.FirstOrDefault(x => x.Type == "Nombre").Value</h3>
+        <form id="perfil">
+            <br />
+            <a href="~/Home/VerAlumnos/@(int.Parse(User.Claims.FirstOrDefault(x=>x.Type=="Id").Value))">
+                Ver su grupo de alumnos
+            </a>
+            <br />
+            <br />
+            <br />
+            <br />
+            <a href="/Home/CerrarSesion">
+                Cerrar sesión
+            </a>
+        </form>
+    }
 
-<h1>Index</h1>
-
+    @if (User.IsInRole("Director"))
+    {
+        <form id="perfil">
+            <h1>Bienvenido</h1>
+            <h3>@User.Claims.FirstOrDefault(x => x.Type == "Nombre").Value</h3>
+            <br />
+            <a href="~/Home/VerMaestros">
+                Ver lista de los maestros
+            </a>
+            <br />
+            <br />
+            <br />
+            <a href="~/Home/CerrarSesion">
+                Cerrar sesión
+            </a>
+        </form>
+    }
+</main>

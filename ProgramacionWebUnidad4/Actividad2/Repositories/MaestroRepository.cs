@@ -1,4 +1,5 @@
 ﻿using Actividad2.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,20 @@ namespace Actividad2.Repositories
         {
             return Context.Maestro.FirstOrDefault(x => x.Clave == clave);
         }
+        public Maestro ObtenerAlumnosPorMaestro(int id)
+        {
+            return Context.Maestro.Include(x => x.Alumno).FirstOrDefault(x => x.Id == id);
+        }
         public override bool Validar(Maestro maestro)
         {
             if (string.IsNullOrEmpty(maestro.Nombre))
-                throw new Exception("El nombre no puede estar vacio");
+                throw new Exception("Ingrese el nombre del maestro");
             if (string.IsNullOrWhiteSpace(maestro.Contrasena))
-                throw new Exception("La contraseña no puede estar vacía");
-            if (maestro.Contrasena.Length <= 7)
-                throw new Exception("La contraseña debe contener más de 7 caracteres");
+                throw new Exception("Ingrese una contraseña");
+            if (maestro.Contrasena.ToString().Length <= 7)
+                throw new Exception("La contraseña debe tener más de 7 caracteres");
             if (maestro.Clave <= 0)
-                throw new Exception("Escriba la clave del maestro");
+                throw new Exception("Ingrese la clave del maestro.");       
             return true;
         }
     }

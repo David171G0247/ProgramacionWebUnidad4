@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Actividad2.Models.Maestro>
+@{
+    Layout = "_Layout";
+    int x = 1;
+}
+<main>
+    <h1>Lista de maestros</h1>
+    <a href="~/Home/AgregarMaestro">Dar de alta un nuevo maestro</a>
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Clave</th>
+                <th>Nombre</th>
+                <th>Grupo</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var maestro in Model)
+            {
+                <tr>
+                    <td class="center">#@(x++)</td>
+                    <td>@maestro.Clave</td>
+                    <td>@maestro.Nombre</td>
+                    <td>
+                        <a href="~/Home/VerAlumnos/@maestro.Id">Ver lista de alumnos</a>
+                    </td>
+                    <td>
+                        <a href="#" onclick="cambiar(@maestro.Id)">@((maestro.Activo==1)?"Activar":"Desactivar")</a>                       
+                        <a href="~/Home/EditarMaestros/@maestro.Id">Editar</a>
+                        <a href="~/Home/CambiarContraseñas/@maestro.Id">Cambiar contraseña</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="~/Home/Index">Volver</a>
+
+    <form method="post" action="~/Home/DesactivarMaestros">
+        <input type="number" id="idMaestro" name="Id" hidden />
+    </form>
+
+    <script>
+        function cambiar(id) {
+            document.getElementById("idMaestro").value = id;
+            document.querySelector("form").submit();
+        }
+    </script>
+</main>

@@ -1,24 +1,22 @@
-﻿@model Actividad2.Models.Director
+﻿@model Actividad2.Models.Maestro
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{ Layout = "_Layout"; }
 
-<h2>Iniciar sesión como director</h2>
-<section class="formulario">
-    <form method="post" action="~/Home/IniciarSesionDirector">
+<h1>Agregar un nuevo maestro</h1>
+<section id="datos">
+
+    <form method="post" action="~/Home/AgregarMaestro">
         <label>Clave:</label>
         <input type="number" asp-for="Clave" required />
         <br />
+        <label>Nombre completo:</label>
+        <input type="text" asp-for="Nombre" required />
         <br />
         <label>Contraseña:</label>
         <input type="password" asp-for="Contrasena" required />
         <br />
-        <br />
-        <input type="submit" value="Entrar" class="ingresar" />
-        <br />
         @Html.ValidationSummary()
-        <br />
-        <a href="~/Home/ElegirSesion">Volver</a>
+        <input type="submit" value="Agregar" />
+        <a href="~/Home/VerMaestros">Cancelar</a>
     </form>
 </section>
-
-

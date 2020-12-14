@@ -20,9 +20,9 @@ namespace Actividad2
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 options =>
                 {
-                    options.LoginPath = "/Home/IniciarSesion";
+                    options.LoginPath = "/Home/ElegirSesion";
                     options.LogoutPath = "/Home/CerrarSesion";
-                    options.AccessDeniedPath = "/Home/IniciarSesion";
+                    options.AccessDeniedPath = "/Home/ElegirSesion";
                     options.Cookie.Name = "Actividad1";
                 }
                 );

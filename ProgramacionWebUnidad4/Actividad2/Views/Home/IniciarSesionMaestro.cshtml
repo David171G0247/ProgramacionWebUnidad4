@@ -1,7 +1,22 @@
-﻿
-@{
-    ViewData["Title"] = "IniciarSesionMaestro";
-}
+﻿@model Actividad2.Models.Maestro
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
 
-<h1>IniciarSesionMaestro</h1>
-
+<h2>Iniciar sesión como maestro</h2>
+<section class="formulario">
+    <form method="post" action="~/Home/IniciarSesionMaestro">
+        <label>Clave:</label>
+        <input type="number" asp-for="Clave" required />
+        <br />
+        <br />
+        <label>Contraseña:</label>
+        <input type="password" asp-for="Contrasena" required />
+        <br />
+        <br />
+        <input type="submit" value="Entrar" class="ingresar" />
+        <br />
+        @Html.ValidationSummary()
+        <br />
+        <a href="~/Home/ElegirSesion">Volver</a>
+    </form>
+</section>

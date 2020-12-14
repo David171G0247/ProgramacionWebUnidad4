@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Actividad2.Helpers;
 using Actividad2.Models;
+using Actividad2.Models.ViewModels;
 using Actividad2.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,11 +16,16 @@ namespace Actividad2.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        [Authorize(Roles = "Maestro, Director")]
+        public IActionResult Index(int clave)
         {
             return View();
         }
-
+        [AllowAnonymous]
+        public IActionResult ElegirSesion()
+        {
+            return View();
+        }
         [AllowAnonymous]
         public IActionResult IniciarSesionMaestro()
         {
@@ -126,7 +132,7 @@ namespace Actividad2.Controllers
         }
 
         [Authorize(Roles = "Director")]
-        public IActionResult ListaMaestros()
+        public IActionResult VerMaestros()
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -135,14 +141,14 @@ namespace Actividad2.Controllers
         }
 
         [Authorize(Roles = "Director")]
-        public IActionResult DarAltaMaestros()
+        public IActionResult AgregarMaestro()
         {
             return View();
         }
 
         [Authorize(Roles = "Director")]
         [HttpPost]
-        public IActionResult DarAltaMaestros(Maestro m)
+        public IActionResult AgregarMaestro(Maestro m)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -155,7 +161,7 @@ namespace Actividad2.Controllers
                     m.Activo = 1;
                     m.Contrasena = HashHelper.GetHash(m.Contrasena);
                     repository.Insert(m);
-                    return RedirectToAction("ListaMaestros");
+                    return RedirectToAction("VerMaestros");
                 }
                 else
                 {
@@ -172,7 +178,7 @@ namespace Actividad2.Controllers
 
         [Authorize(Roles = "Director")]
         [HttpPost]
-        public IActionResult EstadoMaestro(Maestro m)
+        public IActionResult DesactivarMaestros(Maestro m)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -187,11 +193,11 @@ namespace Actividad2.Controllers
                 maestro.Activo = 0;
                 repository.Update(maestro);
             }
-            return RedirectToAction("ListaMaestros");
+            return RedirectToAction("VerMaestros");
         }
 
         [Authorize(Roles = "Director")]
-        public IActionResult ModificarInfoMaestros(int id)
+        public IActionResult EditarMaestros(int id)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -200,12 +206,12 @@ namespace Actividad2.Controllers
             {
                 return View(maestro);
             }
-            return RedirectToAction("ListaMaestros");
+            return RedirectToAction("VerMaestros");
         }
 
         [Authorize(Roles = "Director")]
         [HttpPost]
-        public IActionResult ModificarInfoMaestros(Maestro m)
+        public IActionResult EditarMaestros(Maestro m)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -217,7 +223,7 @@ namespace Actividad2.Controllers
                     maestro.Nombre = m.Nombre;
                     repository.Update(maestro);
                 }
-                return RedirectToAction("ListaMaestros");
+                return RedirectToAction("VerMaestros");
             }
             catch (Exception ex)
             {
@@ -227,21 +233,21 @@ namespace Actividad2.Controllers
         }
 
         [Authorize(Roles = "Director")]
-        public IActionResult CambiarContraMaestro(int id)
+        public IActionResult CambiarContraseñas(int id)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
             var maestro = repository.GetById(id);
             if (maestro == null)
             {
-                return RedirectToAction("ListaMaestros");
+                return RedirectToAction("VerMaestros");
             }
             return View(maestro);
         }
 
         [Authorize(Roles = "Director")]
         [HttpPost]
-        public IActionResult CambiarContraMaestro(Maestro m, string nuevaContra, string nuevaContraConfirm)
+        public IActionResult CambiarContraseñas(Maestro m, string nuevaContra, string nuevaContraConfirm)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -271,7 +277,7 @@ namespace Actividad2.Controllers
                         }
                     }
                 }
-                return RedirectToAction("ListaMaestros");
+                return RedirectToAction("VerMaestros");
             }
             catch (Exception ex)
             {
@@ -281,7 +287,7 @@ namespace Actividad2.Controllers
         }
 
         [Authorize(Roles = "Maestro, Director")]
-        public IActionResult ListaAlumnos(int id)
+        public IActionResult VerAlumnos(int id)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -306,12 +312,12 @@ namespace Actividad2.Controllers
             }
             else
             {
-                return RedirectToAction("ListaAlumnos");
+                return RedirectToAction("VerAlumnos");
             }
         }
 
         [Authorize(Roles = "Maestro, Director")]
-        public IActionResult AlumnoAgregar(int id)
+        public IActionResult AgregarAlumno(int id)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository repository = new MaestroRepository(context);
@@ -338,27 +344,31 @@ namespace Actividad2.Controllers
             return View(viewModel);
         }
 
-
         [Authorize(Roles = "Maestro, Director")]
         [HttpPost]
-        public IActionResult AlumnoAgregar(AlumnoViewModel viewModel)
+        public IActionResult AgregarAlumno(AlumnoViewModel viewModel)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository maestroRepository = new MaestroRepository(context);
             AlumnosRepository alumnosRepository = new AlumnosRepository(context);
             try
             {
-                if (viewModel.Maestro.Activo == 1)
+                if (context.Alumno.Any(x => x.NumeroControl == viewModel.Alumno.NumeroControl))
                 {
-                    var id = maestroRepository.GetMaestroByClave(viewModel.Maestro.Clave).Id;
-                    viewModel.Alumno.IdMaestro = id;
-                    alumnosRepository.Insert(viewModel.Alumno);
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("", "Este número de control ya se encuentra registrado.");
+                    return View(viewModel);
+                }
+                else if(viewModel.Alumno.NumeroControl.Length < 8 || viewModel.Alumno.NumeroControl.Length > 8)
+                {
+                    ModelState.AddModelError("", "El número de control debe contar con 8 caractares");
+                    return View(viewModel);
                 }
                 else
                 {
-                    ModelState.AddModelError("", "No se pueden asignar alumnos a maestros inactivos.");
-                    return View(viewModel);
+                    var maestro = maestroRepository.GetMaestroByClave(viewModel.Maestro.Clave).Id;
+                    viewModel.Alumno.IdMaestro = maestro;
+                    alumnosRepository.Insert(viewModel.Alumno);
+                    return RedirectToAction("VerAlumnos", new { id = maestro });
                 }
             }
             catch (Exception ex)
@@ -371,7 +381,7 @@ namespace Actividad2.Controllers
         }
 
         [Authorize(Roles = "Maestro, Director")]
-        public IActionResult AlumnoEditar(int id)
+        public IActionResult EditarAlumno(int id)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository maestroRepository = new MaestroRepository(context);
@@ -381,10 +391,11 @@ namespace Actividad2.Controllers
             viewModel.Maestros = maestroRepository.GetAll();
             if (viewModel.Alumno != null)
             {
+                viewModel.Maestro = maestroRepository.GetById(viewModel.Alumno.IdMaestro);
                 if (User.IsInRole("Maestro"))
                 {
                     viewModel.Maestro = maestroRepository.GetById(viewModel.Alumno.IdMaestro);
-                    if (User.Claims.FirstOrDefault(x => x.Type == "NoControl").Value == viewModel.Maestro.NoControl.ToString())
+                    if (User.Claims.FirstOrDefault(x => x.Type == "Clave").Value == viewModel.Maestro.Clave.ToString())
                     {
                         return View(viewModel);
                     }
@@ -401,7 +412,7 @@ namespace Actividad2.Controllers
 
         [Authorize(Roles = "Maestro, Director")]
         [HttpPost]
-        public IActionResult AlumnoEditar(AlumnoViewModel viewModel)
+        public IActionResult EditarAlumno(AlumnoViewModel viewModel)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             MaestroRepository maestroRepository = new MaestroRepository(context);
@@ -412,16 +423,12 @@ namespace Actividad2.Controllers
                 if (alumno != null)
                 {
                     alumno.Nombre = viewModel.Alumno.Nombre;
-                    if (User.IsInRole("Director"))
-                    {
-                        alumno.IdMaestro = viewModel.Alumno.IdMaestro;
-                    }
                     alumnosRepository.Update(alumno);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("VerAlumnos", new { id = alumno.IdMaestro});
                 }
                 else
                 {
-                    ModelState.AddModelError("", "El alumno que intentó buscar no existe.");
+                    ModelState.AddModelError("", "El alumno seleccionado no existe.");
                     viewModel.Maestro = maestroRepository.GetById(viewModel.Alumno.IdMaestro);
                     viewModel.Maestros = maestroRepository.GetAll();
                     return View(viewModel);
@@ -438,7 +445,7 @@ namespace Actividad2.Controllers
 
         [Authorize(Roles = "Maestro, Director")]
         [HttpPost]
-        public IActionResult AlumnoEliminar(Alumno a)
+        public IActionResult EliminarAlumno(Alumno a)
         {
             rolesusuariosContext context = new rolesusuariosContext();
             AlumnosRepository repository = new AlumnosRepository(context);
@@ -449,9 +456,9 @@ namespace Actividad2.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "El alumnó que intentó eliminar no existe.");
+                ModelState.AddModelError("", "El alumno seleccionado no existe.");
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("VerAlumnos", new { id = alumno.IdMaestro });
         }
 
         [AllowAnonymous]

@@ -1,0 +1,19 @@
+﻿@model Actividad2.Models.Maestro
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+<section id="datos">
+    <h1>Cambiar contraseña</h1>    
+    <form method="post" action="~/Home/CambiarContraseñas">
+        <label>Editando contraseña de: </label>
+        <input type="text" asp-for="Nombre" readonly />
+        <input type="hidden" asp-for="Id" />
+        <br />
+        <input type="password" asp-for="Contrasena" name="nuevaContra" placeholder="Nueva contraseña" required />
+        <br />
+        <input type="password" name="nuevaContraConfirm" placeholder="Confirmar contraseña" required />
+        <br />
+        @Html.ValidationSummary()
+        <input type="submit" value="Cambiar" />
+        <a href="~/Home/VerMaestros">Cancelar</a>
+    </form>
+</section>

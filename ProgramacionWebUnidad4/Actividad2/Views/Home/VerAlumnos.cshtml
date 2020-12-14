@@ -1,0 +1,50 @@
+﻿@model Actividad2.Models.Maestro
+@{ 
+    Layout = "_Layout";
+    int x = 1;
+}
+    <section id="datos">
+        <h1>Alumnos del maestro @Model.Nombre</h1>
+        <a href="~/Home/AgregarAlumno/@Model.Id">Dar de alta alumnos</a>
+        <table id="alumnos">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Número de control</th>
+                    <th>Nombre</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var alumno in Model.Alumno)
+                {
+                    <tr>
+                        <td>#@(x++)</td>
+                        <td>@alumno.NumeroControl</td>
+                        <td>@alumno.Nombre</td>
+                        <td>
+                            <a href="~/Home/EditarAlumno/@alumno.Id">Editar</a>
+                            <a href="#" onclick="eliminar(@alumno.Id)">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (User.IsInRole("Maestro"))
+        {
+            <a href="~/Home/Index">Cancelar</a> 
+        }
+        else if (User.IsInRole("Director"))
+        {
+            <a href="~/Home/VerMaestros/@Model.Id">Cancelar</a>
+        }
+    </section>
+
+    <form method="post" action="~/Home/EliminarAlumno">
+        <input type="number" name="Id" id="idAlumno" hidden />
+    </form>
+
+    <script>function eliminar(id) {
+            document.getElementById("idAlumno").value = id;
+            document.querySelector("form").submit();}
+    </script>
